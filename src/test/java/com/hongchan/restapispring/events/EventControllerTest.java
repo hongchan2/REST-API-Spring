@@ -49,8 +49,6 @@ public class EventControllerTest {
                 .maxPrice(200)
                 .limitOfEnrollment(100)
                 .location("uijeongbu si")
-                .free(true)
-                .eventStatus(EventStatus.PUBLISHED)
                 .build();
 
         mockMvc.perform(post("/api/events/")
@@ -64,5 +62,30 @@ public class EventControllerTest {
                 .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
                 .andExpect(jsonPath("free").value(Matchers.not(true)))
                 .andExpect(jsonPath("eventStatus").value(EventStatus.DRAFT.name()));
+    }
+
+    @Test
+    public void createEvent_Bad_Request() throws Exception {
+        Event event = Event.builder()
+                .name("Spring")
+                .description("hongchan")
+                .beginEnrollmentDateTime(LocalDateTime.of(2020, 11, 23, 11, 11))
+                .closeEnrollmentDateTime(LocalDateTime.of(2020, 11, 23, 11, 11))
+                .beginEventDateTime(LocalDateTime.of(2020, 11, 23, 11, 11))
+                .endEventDateTime(LocalDateTime.of(2020, 11, 23, 11, 11))
+                .basePrice(100)
+                .maxPrice(200)
+                .limitOfEnrollment(100)
+                .location("uijeongbu si")
+                .free(true)
+                .eventStatus(EventStatus.PUBLISHED)
+                .build();
+
+        mockMvc.perform(post("/api/events/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaTypes.HAL_JSON)
+                .content(objectMapper.writeValueAsString(event)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 }
