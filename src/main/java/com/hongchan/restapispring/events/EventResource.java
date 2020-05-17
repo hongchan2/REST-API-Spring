@@ -1,11 +1,9 @@
 package com.hongchan.restapispring.events;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.RepresentationModel;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 //public class EventResource extends RepresentationModel {
 //
